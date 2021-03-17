@@ -5,6 +5,7 @@
  */
 package br.com.tresdev.TresDevPI4.resources;
 
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import br.com.tresdev.TresDevPI4.dominio.Produto;
 import br.com.tresdev.TresDevPI4.repositories.ProdutoRepository;
 
+
 /*
  *
  * @author nails
@@ -39,7 +41,7 @@ import br.com.tresdev.TresDevPI4.repositories.ProdutoRepository;
 public class ProdutoResource {
 	
 	//auterar para caminho absoluto real da maquina
-	private static String caminhoImagens = "C:/FACULDADE/SENAC_QUARTO SEMESTRE/PROJETO INTEGRADOR/TresDev-PI4/src/imagens/";
+	private static String caminhoImagens = "C:/FACULDADE/SENAC_QUARTO SEMESTRE/PROJETO INTEGRADOR/TresDev-PI4/src/main/resources/static/imagens/";
     
  
 	@Autowired
@@ -50,23 +52,35 @@ public class ProdutoResource {
 	public @ResponseBody Produto novoProduto(Produto produto, 
 		@RequestParam("file") MultipartFile arquivo) {
 		
-		produtoRepository.save(produto);	
 		
+		produtoRepository.save(produto);	
+		System.out.println(produto);
 		try {
 			if(!arquivo.isEmpty()) {
-				byte[] bytes = arquivo.getBytes();
-				Path caminho = Paths.get(caminhoImagens+String.valueOf(produto.getId()) + arquivo.getOriginalFilename());
-				Files.write(caminho, bytes);
-				produto.setFoto1(caminhoImagens+String.valueOf(produto.getId()) + arquivo.getOriginalFilename());
 				
+				byte[] bytes = arquivo.getBytes();
+				
+				
+				
+				produto.setFoto1(arquivo.getOriginalFilename());
+				
+				
+				Path caminho = Paths.get(caminhoImagens + String.valueOf(produto.getId()) + arquivo.getOriginalFilename());
+				
+				Files.write(caminho, bytes);
+				produto.setFoto1(caminhoImagens +  String.valueOf(produto.getId()) + arquivo.getOriginalFilename());
+				
+				System.out.println(produto);
 				produtoRepository.save(produto);
 			}
 		} catch (IOException e) {
+			e.printStackTrace();
 			
 		}
 			
 		return produto;
 	}
+	
 	
 	
 	//Listar produtos

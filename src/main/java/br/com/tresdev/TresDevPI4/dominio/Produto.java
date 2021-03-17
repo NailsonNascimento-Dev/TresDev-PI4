@@ -10,22 +10,23 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+
+import org.springframework.web.multipart.MultipartFile;
+
+
 
 /**
  *
  * @author nails
  */
-@Getter
-@Setter
+
 @Entity
 public class Produto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String nome;
     private String descricao;
@@ -33,33 +34,31 @@ public class Produto implements Serializable {
     private boolean status;
     private int quantidade;
     private double preco;
-    private String foto1;
+    private String foto1;    
     private String foto2;
     private String foto3;
     private String foto4;
     
+  
+    
 
     public Produto() {
+    	
     }
-
-    public Produto(String nome, String foto1) {
-        this.nome = nome;
-        this.foto1 = foto1;
-    } 
-
-    public Produto(String nome, String descricao, int estrelas, boolean status, int quantidade, double preco,
-			String foto1, String foto2, String foto3, String foto4) {
+    
+	public Produto(String nome) {
 		
 		this.nome = nome;
-		this.descricao = descricao;
-		this.estrelas = estrelas;
-		this.status = status;
-		this.quantidade = quantidade;
-		this.preco = preco;
+		
+	}
+
+    
+
+
+	public Produto(String nome, String foto1) {
+	
+		this.nome = nome;
 		this.foto1 = foto1;
-		this.foto2 = foto2;
-		this.foto3 = foto3;
-		this.foto4 = foto4;
 	}
 
 	public Integer getId() {
@@ -118,10 +117,6 @@ public class Produto implements Serializable {
 		this.preco = preco;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-	
 	public String getFoto1() {
 		return foto1;
 	}
@@ -154,11 +149,7 @@ public class Produto implements Serializable {
 		this.foto4 = foto4;
 	}
 
-	@Override
-    public String toString() {
-        return "Produto{" + "id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", estrelas=" + estrelas + ", status=" + status + ", quantidade=" + quantidade + ", preco=" + preco + '}';
-    }
-    
-    
+
+
 
 }
